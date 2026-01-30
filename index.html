@@ -1,6 +1,282 @@
-<title>Ruysch SPARQL Explorer</title>
-<h1>Ruysch SPARQL Explorer</h1>
-<p>
-  A biomedical SPARQL browser inspired by anatomy and botany,
-  after father and daughter Frederik and Rachel Ruysch
-</p>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Ruysch SPARQL Explorer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    :root {
+      --bg-main: #f7f6f3;
+      --bg-panel: #ffffff;
+      --accent-soft: #c7d2c1;
+      --accent-dark: #5c6b5f;
+      --text-main: #2f2f2f;
+      --text-muted: #6f6f6f;
+      --border-soft: #e3e3df;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 500;
+    }
+
+    header {
+      padding: 3rem 2rem;
+      background: var(--bg-panel);
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    header h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.3rem;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--text-muted);
+      max-width: 48rem;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      gap: 2rem;
+    }
+
+    .panel {
+      background: var(--bg-panel);
+      padding: 1.5rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-soft);
+    }
+
+    .panel h2 {
+      margin-top: 0;
+      font-size: 1.4rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 10rem;
+      font-family: monospace;
+      font-size: 0.95rem;
+      padding: 0.75rem;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      background: #fafafa;
+    }
+
+    button {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.9rem;
+      background: var(--accent-dark);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--border-soft);
+      padding: 0.4rem 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      font-weight: 600;
+      background: #fafafa;
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .underneath {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .underneath img {
+      max-width: 100%;
+      border: 1px solid var(--border-soft);
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    footer {
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    a {
+      color: var(--accent-dark);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Ruysch SPARQL Explorer</h1>
+  <p>
+    A biomedical SPARQL browser inspired by anatomy and botany,
+    after father and daughter Frederik and Rachel Ruysch.
+  </p>
+</header>
+
+<main>
+
+  <!-- QUERY PANEL -->
+  <section class="panel">
+    <h2>Compose a query</h2>
+    <p class="muted">
+      Like an anatomical or botanical preparation, a query reveals structure
+      by careful selection and composition.
+    </p>
+
+    <textarea id="query">
+SELECT * WHERE {
+  ?s ?p ?o
+}
+LIMIT 10
+    </textarea>
+
+    <button onclick="runQuery()">Run query</button>
+  </section>
+
+  <!-- RESULTS PANEL -->
+  <section class="panel">
+    <h2>Query results</h2>
+    <div id="results" class="muted">
+      Results will appear here.
+    </div>
+  </section>
+
+  <!-- UNDER THE SURFACE -->
+  <section class="panel underneath">
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/4/4b/Tulip_bulb_diagram_en.svg"
+      alt="Botanical bulb cross section" />
+
+    <div>
+      <h2>Beneath the surface</h2>
+      <p>
+        Frederik Ruysch exposed anatomical structure through careful preparation.
+        Rachel Ruysch revealed botanical order through observation and composition.
+      </p>
+      <p class="muted">
+        In the same way, SPARQL exposes the underlying structure of biomedical data:
+        triples, relations, and joins that remain invisible in final results.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="panel">
+    <h2>About this explorer</h2>
+    <p>
+      Ruysch SPARQL Explorer is a lightweight, read-only interface for exploring
+      biomedical linked data. It emphasizes the relationship between visible
+      query results and the structured foundations that make them possible.
+    </p>
+    <p class="muted">
+      The name honors Frederik Ruysch (1638–1731), anatomist, and his daughter
+      Rachel Ruysch (1664–1750), whose work bridged science, structure,
+      and careful observation.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  SPARQL endpoint:
+  <a href="http://81.24.6.161:7019">http://81.24.6.161:7019</a>
+  <br />
+  Public-domain visual inspiration · Amsterdam UMC context
+</footer>
+
+<script>
+  function runQuery() {
+    const endpoint = "http://81.24.6.161:7019";
+    const query = document.getElementById("query").value;
+    const resultsDiv = document.getElementById("results");
+
+    resultsDiv.textContent = "Running query…";
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/sparql-query",
+        "Accept": "application/sparql+json"
+      },
+      body: query
+    })
+    .then(r => r.json())
+    .then(data => renderTable(data))
+    .catch(err => {
+      resultsDiv.textContent = "Error: " + err;
+    });
+  }
+
+  function renderTable(json) {
+    const vars = json.head.vars;
+    const rows = json.results.bindings;
+
+    if (rows.length === 0) {
+      document.getElementById("results").textContent = "No results.";
+      return;
+    }
+
+    let html = "<table><thead><tr>";
+    vars.forEach(v => html += `<th>${v}</th>`);
+    html += "</tr></thead><tbody>";
+
+    rows.forEach(row => {
+      html += "<tr>";
+      vars.forEach(v => {
+        html += `<td>${row[v] ? row[v].value : ""}</td>`;
+      });
+      html += "</tr>";
+    });
+
+    html += "</tbody></table>";
+    document.getElementById("results").innerHTML = html;
+  }
+</script>
+
+</body>
+</html>
