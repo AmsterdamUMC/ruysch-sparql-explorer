@@ -230,23 +230,30 @@ LIMIT 10
 </footer>
 
 <script>
+<script>
 function runQuery() {
-  const endpoint = "https://sparql.semscape.org/endpoint1";
+  const endpoint = "/api/sparql";
   const query = document.getElementById("query").value;
 
-  const url = endpoint + "?query=" + encodeURIComponent(query);
+  const url =
+    endpoint +
+    "?endpoint=qlever-tb" +
+    "&query=" + encodeURIComponent(query);
 
-  fetch(url, {
-    headers: {
-      "Accept": "application/sparql+json"
-    }
-  })
-  .then(r => r.json())
-  .then(data => renderTable(data))
-  .catch(err => {
-    document.getElementById("results").textContent = "Error: " + err;
-  });
+  fetch(url)
+    .then(r => {
+      if (!r.ok) {
+        throw new Error("HTTP " + r.status);
+      }
+      return r.json();
+    })
+    .then(data => renderTable(data))
+    .catch(err => {
+      document.getElementById("results").textContent =
+        "Error: " + err.message;
+    });
 }
+
 
   function renderTable(json) {
     const vars = json.head.vars;
