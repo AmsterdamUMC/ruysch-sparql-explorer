@@ -230,27 +230,23 @@ LIMIT 10
 </footer>
 
 <script>
-  function runQuery() {
-    const endpoint = "https://sparql.semscape.org/endpoint1/";
-    const query = document.getElementById("query").value;
-    const resultsDiv = document.getElementById("results");
+function runQuery() {
+  const endpoint = "https://sparql.semscape.org/endpoint1";
+  const query = document.getElementById("query").value;
 
-    resultsDiv.textContent = "Running query…";
+  const url = endpoint + "?query=" + encodeURIComponent(query);
 
-    fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/sparql-query",
-        "Accept": "application/sparql+json"
-      },
-      body: query
-    })
-    .then(r => r.json())
-    .then(data => renderTable(data))
-    .catch(err => {
-      resultsDiv.textContent = "Error: " + err;
-    });
-  }
+  fetch(url, {
+    headers: {
+      "Accept": "application/sparql+json"
+    }
+  })
+  .then(r => r.json())
+  .then(data => renderTable(data))
+  .catch(err => {
+    document.getElementById("results").textContent = "Error: " + err;
+  });
+}
 
   function renderTable(json) {
     const vars = json.head.vars;
